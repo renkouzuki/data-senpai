@@ -1,7 +1,7 @@
-# NextFetch
+# Fetch Me Senapi >///<
 
 <p align="center">
-  <img src="https://i.pinimg.com/736x/68/94/87/689487c4ae4e181d804cda76284cd6e0.jpg" alt="NextFetch Logo" width="200" height="200">
+  <img src="https://i.pinimg.com/736x/68/94/87/689487c4ae4e181d804cda76284cd6e0.jpg" alt="fetch-me-senpai Logo" width="200" height="200">
 </p>
 
 <p align="center">
@@ -17,11 +17,8 @@
 </p>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/next-fetch" target="_blank">
+  <a href="https://www.npmjs.com/package/fetch-me-senpai" target="_blank">
     <img src="https://img.shields.io/npm/v/next-fetch.svg" alt="npm version">
-  </a>
-  <a href="https://github.com/yourusername/next-fetch/actions" target="_blank">
-    <img src="https://img.shields.io/github/workflow/status/yourusername/next-fetch/CI" alt="CI Status">
   </a>
   <a href="https://github.com/yourusername/next-fetch/blob/main/LICENSE" target="_blank">
     <img src="https://img.shields.io/npm/l/next-fetch.svg" alt="License">
@@ -31,7 +28,7 @@
 
 ---
 
-**NextFetch** is a lightweight, intuitive data fetching library for Next.js applications that simplifies server-side rendering while providing powerful client-side capabilities. It's designed with developer experience in mind, making data fetching easy for beginners and powerful for advanced users.
+**Fetch-me-senpai** is a lightweight, intuitive data fetching library for Next.js applications that simplifies server-side rendering while providing powerful client-side capabilities. It's designed with developer experience in mind, making data fetching easy for beginners and powerful for advanced users.
 
 ## Features
 
@@ -139,7 +136,7 @@ export default function AddToCartForm({ productId }) {
 
 ### Human-Readable Cache Times
 
-NextFetch uses plain English for cache durations:
+Fetch-me-senpai uses plain English for cache durations:
 
 ```tsx
 // Cache for 5 minutes
@@ -408,7 +405,7 @@ function CheckoutForm() {
 
 ## TypeScript
 
-NextFetch is built with TypeScript and provides full type safety:
+Fetch-me-senpai is built with TypeScript and provides full type safety:
 
 ```tsx
 // Define your data types
