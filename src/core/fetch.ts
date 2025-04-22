@@ -9,13 +9,6 @@ import {
   removeFromPreloadSet,
 } from "./cache";
 
-/**
- * Main data fetching function for server components
- *
- * @param url - URL to fetch data from
- * @param options - Fetch options including caching
- * @returns Promise resolving to the fetched data
- */
 export async function fetchData<T>(
   url: string,
   options: FetchOptions = {}
@@ -23,20 +16,17 @@ export async function fetchData<T>(
   try {
     const cacheKey = url;
 
-    // Determine cache time from options
     const cacheTime = options.cache
       ? typeof options.cache === "string"
         ? parseTime(options.cache)
-        : 60 * 60 * 1000 // 1 hour default if cache is just true
-      : 0; // No caching if cache option is falsy
+        : 60 * 60 * 1000 
+      : 0;
 
-    // Check cache first
     const cachedData = getFromCache(cacheKey);
     if (cachedData !== null) {
       return cachedData as T;
     }
 
-    // Fetch fresh data
     const response = await fetch(url, {
       method: options.method || "GET",
       headers: options.headers || {
@@ -51,7 +41,6 @@ export async function fetchData<T>(
 
     const data = await response.json();
 
-    // Update cache if caching is enabled
     if (cacheTime > 0) {
       addToCache(cacheKey, data, cacheTime);
     }
@@ -63,32 +52,18 @@ export async function fetchData<T>(
   }
 }
 
-/**
- * Preload data in the background
- *
- * @param url - URL to preload data from
- * @param options - Fetch options including caching
- */
 export function preloadData(url: string, options: FetchOptions = {}): void {
-  // Don't preload the same URL multiple times
   if (isPreloading(url)) return;
 
   addToPreloadSet(url);
 
-  // Fetch in the background
   fetchData(url, options).finally(() => {
-    // Remove from preload set after a delay
     setTimeout(() => {
       removeFromPreloadSet(url);
-    }, 10000); // Keep in set for 10 seconds to prevent duplicate preloads
+    }, 10000); 
   });
 }
 
-/**
- * Invalidate cached data for a specific URL
- *
- * @param url - URL to invalidate in cache
- */
 export function invalidateData(url: string): void {
   invalidateCache(url);
 }
