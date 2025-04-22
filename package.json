@@ -1,7 +1,7 @@
 {
-  "name": "enhanced-masonry",
-  "version": "1.0.1",
-  "description": "A lightweight and responsive masonry grid layout with enhanced flexibility and performance. Perfect for galleries, portfolios, and dynamic content arrangements.",
+  "name": "next-fetch",
+  "version": "1.0.0",
+  "description": "Simple SSR Data Fetching for Next.js",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -10,8 +10,11 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
+    "next.js",
     "react",
-    "react-component"
+    "ssr",
+    "data-fetching",
+    "cache"
   ],
   "author": "renko uzuki",
   "repository": {
@@ -35,6 +38,6 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
-    "enhanced-masonry": "file:"
+    "next-fetch": "file:"
   }
 }
