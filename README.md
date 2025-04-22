@@ -1,7 +1,7 @@
 # NextFetch
 
 <p align="center">
-  <img src="https://via.placeholder.com/200x200?text=NextFetch" alt="NextFetch Logo" width="200" height="200">
+  <img src="https://i.pinimg.com/736x/57/c9/95/57c99566f51bedc64168e3ecd08215bb.jpg" alt="NextFetch Logo" width="200" height="200">
 </p>
 
 <p align="center">
