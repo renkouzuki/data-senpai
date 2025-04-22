@@ -30,8 +30,9 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/renkouzuki/fetch-me-senpai-"
+    "url": "git+https://github.com/renkouzuki/data-senpai.git"
   },
+  "homepage": "https://data-senpai-demo.vercel.app",
   "author": "renko uzuki",
   "license": "MIT",
   "peerDependencies": {
