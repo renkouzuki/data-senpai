@@ -1,6 +1,6 @@
 {
-  "name": "next-fetch",
-  "version": "1.0.0",
+  "name": "fetch-me-senpai",
+  "version": "0.0.1",
   "description": "Simple SSR Data Fetching for Next.js",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -33,6 +33,6 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
-    "next-fetch": "file:"
+    "fetch-me-senpai": "file:"
   }
 }
