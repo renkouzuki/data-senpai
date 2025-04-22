@@ -1,7 +1,7 @@
-# Fetch Me Senapi >///<
+# Data Senpai >///<
 
 <p align="center">
-  <img src="https://i.pinimg.com/736x/68/94/87/689487c4ae4e181d804cda76284cd6e0.jpg" alt="fetch-me-senpai Logo" width="200" height="200">
+  <img src="https://i.pinimg.com/736x/68/94/87/689487c4ae4e181d804cda76284cd6e0.jpg" alt="data-senpai Logo" width="200" height="200">
 </p>
 
 <p align="center">
@@ -17,18 +17,18 @@
 </p>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/fetch-me-senpai" target="_blank">
-    <img src="https://img.shields.io/npm/v/next-fetch.svg" alt="npm version">
+  <a href="https://www.npmjs.com/package/data-senpai" target="_blank">
+    <img src="https://img.shields.io/npm/v/data-senpai.svg" alt="npm version">
   </a>
-  <a href="https://github.com/yourusername/next-fetch/blob/main/LICENSE" target="_blank">
-    <img src="https://img.shields.io/npm/l/next-fetch.svg" alt="License">
+  <a href="https://github.com/renkouzuki/data-senpai/blob/main/LICENSE" target="_blank">
+    <img src="https://img.shields.io/npm/l/data-senpai.svg" alt="License">
   </a>
-  <img src="https://img.shields.io/bundlephobia/minzip/next-fetch" alt="Bundle Size">
+  <img src="https://img.shields.io/bundlephobia/minzip/data-senpai" alt="Bundle Size">
 </p>
 
 ---
 
-**Fetch-me-senpai** is a lightweight, intuitive data fetching library for Next.js applications that simplifies server-side rendering while providing powerful client-side capabilities. It's designed with developer experience in mind, making data fetching easy for beginners and powerful for advanced users.
+**Data Senpai** is a lightweight, intuitive data fetching library for Next.js applications that simplifies server-side rendering while providing powerful client-side capabilities. It's designed with developer experience in mind, making data fetching easy for beginners and powerful for advanced users.
 
 ## Features
 
@@ -44,13 +44,13 @@
 
 ```bash
 # npm
-npm install fetch-me-senpai
+npm install data-senpai
 
 # yarn
-yarn add fetch-me-senpai
+yarn add data-senpai
 
 # pnpm
-pnpm add fetch-me-senpai
+pnpm add data-senpai
 ```
 
 ## Quick Start
@@ -59,7 +59,7 @@ pnpm add fetch-me-senpai
 
 ```tsx
 // app/products/page.tsx
-import { fetchData } from 'fetch-me-senpai';
+import { fetchData } from 'data-senpai';
 import ProductList from '@/components/ProductList';
 
 export default async function ProductsPage() {
@@ -81,7 +81,9 @@ export default async function ProductsPage() {
 
 ```tsx
 // components/CartWidget.tsx
-import { useServerData } from 'fetch-me-senpai';
+'use client';
+
+import { useServerData } from 'data-senpai/client';
 
 export default function CartWidget() {
   // Data initially from server, refreshable on client
@@ -106,7 +108,9 @@ export default function CartWidget() {
 
 ```tsx
 // components/AddToCartForm.tsx
-import { useSubmit } from 'fetch-me-senpai';
+'use client';
+
+import { useSubmit } from 'data-senpai/client';
 
 export default function AddToCartForm({ productId }) {
   // Form submission with auto-refresh
@@ -136,7 +140,7 @@ export default function AddToCartForm({ productId }) {
 
 ### Human-Readable Cache Times
 
-Fetch-me-senpai uses plain English for cache durations:
+Data Senpai uses plain English for cache durations:
 
 ```tsx
 // Cache for 5 minutes
@@ -158,6 +162,10 @@ Data is fetched on the server when possible, then handed off to the client for u
 const initialData = await fetchData('/api/data');
 
 // Client component can refresh the data
+'use client';
+
+import { useServerData } from 'data-senpai/client';
+
 function ClientComponent({ initialData }) {
   const { data, refresh } = useServerData('/api/data');
   // data initially equals initialData, can be refreshed
@@ -169,7 +177,9 @@ function ClientComponent({ initialData }) {
 Preload data to make navigation feel instant:
 
 ```tsx
-import { Link } from 'fetch-me-senpai';
+'use client';
+
+import { Link } from 'data-senpai/client';
 
 function ProductCard({ product }) {
   return (
@@ -205,12 +215,18 @@ const data = await fetchData(url, {
 React hook for client-side data with server-first approach.
 
 ```tsx
-const { 
-  data,        // The fetched data
-  error,       // Error object if request failed
-  isLoading,   // Loading state
-  refresh      // Function to refresh data
-} = useServerData('/api/data');
+'use client';
+
+import { useServerData } from 'data-senpai/client';
+
+function MyComponent() {
+  const { 
+    data,        // The fetched data
+    error,       // Error object if request failed
+    isLoading,   // Loading state
+    refresh      // Function to refresh data
+  } = useServerData('/api/data');
+}
 ```
 
 #### `useSubmit(url, options)`
@@ -218,17 +234,23 @@ const {
 React hook for form submissions with data refresh.
 
 ```tsx
-const {
-  submit,        // Function to submit data
-  isSubmitting,  // Whether submission is in progress
-  error,         // Error object if submission failed
-  data           // Response data from successful submission
-} = useSubmit('/api/submit', {
-  method: 'POST',
-  refreshData: ['/api/related-data'],
-  onSuccess: (data) => console.log('Success!', data),
-  onError: (error) => console.error('Error!', error)
-});
+'use client';
+
+import { useSubmit } from 'data-senpai/client';
+
+function MyForm() {
+  const {
+    submit,        // Function to submit data
+    isSubmitting,  // Whether submission is in progress
+    error,         // Error object if submission failed
+    data           // Response data from successful submission
+  } = useSubmit('/api/submit', {
+    method: 'POST',
+    refreshData: ['/api/related-data'],
+    onSuccess: (data) => console.log('Success!', data),
+    onError: (error) => console.error('Error!', error)
+  });
+}
 ```
 
 #### `preloadData(url, options)`
@@ -236,6 +258,10 @@ const {
 Manually preload data for future use.
 
 ```tsx
+'use client';
+
+import { preloadData } from 'data-senpai';
+
 // Preload product data when user hovers over category
 function CategoryItem({ category }) {
   return (
@@ -253,6 +279,8 @@ function CategoryItem({ category }) {
 Manually invalidate cached data.
 
 ```tsx
+import { invalidateData } from 'data-senpai';
+
 // Clear cache after user updates profile
 async function updateProfile(data) {
   await fetch('/api/user/profile', {
@@ -272,19 +300,27 @@ async function updateProfile(data) {
 Component for handling loading states elegantly.
 
 ```tsx
-<LoadingFallback 
-  fetch="/api/posts"
-  options={{ cache: '10 minutes' }}
-  fallback={<div>Loading posts...</div>}
->
-  {(posts) => (
-    <div className="posts-grid">
-      {posts.map(post => (
-        <PostCard key={post.id} post={post} />
-      ))}
-    </div>
-  )}
-</LoadingFallback>
+'use client';
+
+import { LoadingFallback } from 'data-senpai/client';
+
+function PostsSection() {
+  return (
+    <LoadingFallback 
+      fetch="/api/posts"
+      options={{ cache: '10 minutes' }}
+      fallback={<div>Loading posts...</div>}
+    >
+      {(posts) => (
+        <div className="posts-grid">
+          {posts.map(post => (
+            <PostCard key={post.id} post={post} />
+          ))}
+        </div>
+      )}
+    </LoadingFallback>
+  );
+}
 ```
 
 #### `<ErrorBoundary />`
@@ -292,19 +328,27 @@ Component for handling loading states elegantly.
 Component for graceful error handling.
 
 ```tsx
-<ErrorBoundary 
-  fallback={(error) => (
-    <div className="error-container">
-      <h2>Something went wrong</h2>
-      <p>{error.message}</p>
-      <button onClick={() => window.location.reload()}>
-        Try Again
-      </button>
-    </div>
-  )}
->
-  <UserDashboard />
-</ErrorBoundary>
+'use client';
+
+import { ErrorBoundary } from 'data-senpai/client';
+
+function PageWithErrorHandling() {
+  return (
+    <ErrorBoundary 
+      fallback={(error) => (
+        <div className="error-container">
+          <h2>Something went wrong</h2>
+          <p>{error.message}</p>
+          <button onClick={() => window.location.reload()}>
+            Try Again
+          </button>
+        </div>
+      )}
+    >
+      <UserDashboard />
+    </ErrorBoundary>
+  );
+}
 ```
 
 #### `<Link />`
@@ -312,13 +356,21 @@ Component for graceful error handling.
 Enhanced link component with data preloading.
 
 ```tsx
-<Link 
-  href="/products/123"
-  prefetch="/api/products/123"
-  className="product-link"
->
-  View Product Details
-</Link>
+'use client';
+
+import { Link } from 'data-senpai/client';
+
+function ProductLink({ product }) {
+  return (
+    <Link 
+      href={`/products/${product.id}`}
+      prefetch={`/api/products/${product.id}`}
+      className="product-link"
+    >
+      View Product Details
+    </Link>
+  );
+}
 ```
 
 ## Examples
@@ -326,7 +378,9 @@ Enhanced link component with data preloading.
 ### Data-Dependent Components
 
 ```tsx
-import { LoadingFallback } from 'fetch-me-senpai';
+'use client';
+
+import { LoadingFallback } from 'data-senpai/client';
 
 function UserOrders() {
   return (
@@ -353,7 +407,10 @@ function UserOrders() {
 ### Multi-Step Form Submission
 
 ```tsx
-import { useSubmit } from 'fetch-me-senpai';
+'use client';
+
+import { useState } from 'react';
+import { useSubmit } from 'data-senpai/client';
 
 function CheckoutForm() {
   const [step, setStep] = useState(1);
@@ -405,7 +462,7 @@ function CheckoutForm() {
 
 ## TypeScript
 
-Fetch-me-senpai is built with TypeScript and provides full type safety:
+Data Senpai is built with TypeScript and provides full type safety:
 
 ```tsx
 // Define your data types
@@ -421,16 +478,28 @@ const products = await fetchData<Product[]>('/api/products');
 // products is typed as Product[]
 
 // Use with useServerData
-const { data } = useServerData<Product[]>('/api/products');
-// data is typed as Product[]
+'use client';
+import { useServerData } from 'data-senpai/client';
+
+function ProductsComponent() {
+  const { data } = useServerData<Product[]>('/api/products');
+  // data is typed as Product[]
+}
 
 // Use with LoadingFallback
-<LoadingFallback<Product[]> fetch="/api/products">
-  {(products) => {
-    // products is typed as Product[]
-    return <ProductList products={products} />;
-  }}
-</LoadingFallback>
+'use client';
+import { LoadingFallback } from 'data-senpai/client';
+
+function ProductsListComponent() {
+  return (
+    <LoadingFallback<Product[]> fetch="/api/products">
+      {(products) => {
+        // products is typed as Product[]
+        return <ProductList products={products} />;
+      }}
+    </LoadingFallback>
+  );
+}
 ```
 
 ## Best Practices
@@ -455,17 +524,25 @@ await fetchData('/api/categories', { cache: '1 day' });
 Wrap specific components instead of entire pages for better user experience:
 
 ```tsx
-<div className="dashboard">
-  <UserInfo userId={userId} /> {/* Critical component */}
-  
-  <ErrorBoundary fallback={(e) => <p>Could not load activity</p>}>
-    <RecentActivity userId={userId} /> {/* Non-critical component */}
-  </ErrorBoundary>
-  
-  <ErrorBoundary fallback={(e) => <p>Could not load recommendations</p>}>
-    <Recommendations userId={userId} /> {/* Non-critical component */}
-  </ErrorBoundary>
-</div>
+'use client';
+
+import { ErrorBoundary } from 'data-senpai/client';
+
+function Dashboard({ userId }) {
+  return (
+    <div className="dashboard">
+      <UserInfo userId={userId} /> {/* Critical component */}
+      
+      <ErrorBoundary fallback={(e) => <p>Could not load activity</p>}>
+        <RecentActivity userId={userId} /> {/* Non-critical component */}
+      </ErrorBoundary>
+      
+      <ErrorBoundary fallback={(e) => <p>Could not load recommendations</p>}>
+        <Recommendations userId={userId} /> {/* Non-critical component */}
+      </ErrorBoundary>
+    </div>
+  );
+}
 ```
 
 ### Preload on Intent
@@ -473,6 +550,11 @@ Wrap specific components instead of entire pages for better user experience:
 Preload data when the user shows intent to navigate:
 
 ```tsx
+'use client';
+
+import { preloadData } from 'data-senpai';
+import { Link } from 'data-senpai/client';
+
 function NavigationMenu() {
   return (
     <ul className="nav-menu">
@@ -491,16 +573,87 @@ function NavigationMenu() {
 }
 ```
 
-## Contributing
+# Contributing to data-senpai
 
-We welcome contributions! Please see our [contributing guide](CONTRIBUTING.md) for details.
+Thank you for your interest in contributing to data-senpai! We appreciate your help in making this library better for everyone.
+
+## Getting Started
+
+1. **Fork the repository**
+   - Visit [https://github.com/renkouzuki/data-senpai](https://github.com/renkouzuki/data-senpai)
+   - Click the "Fork" button in the upper right corner
+
+2. **Clone your fork**
+   ```bash
+   git clone https://github.com/YOUR_USERNAME/data-senpai.git
+   cd data-senpai
+   ```
+
+3. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+4. **Create a branch for your changes**
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+
+## Development Workflow
+
+1. **Make your changes**
+   - Write code
+   - Add tests if applicable
+   - Update documentation as needed
+
+2. **Build and test locally**
+   ```bash
+   npm run rollup
+   ```
+
+3. **Commit your changes**
+   ```bash
+   git add .
+   git commit -m "Description of your changes"
+   ```
+
+4. **Push to your fork**
+   ```bash
+   git push origin feature/your-feature-name
+   ```
+
+5. **Open a Pull Request**
+   - Go to [https://github.com/renkouzuki/data-senpai/pulls](https://github.com/renkouzuki/data-senpai/pulls)
+   - Click "New Pull Request"
+   - Select "compare across forks"
+   - Select your fork and branch
+   - Click "Create Pull Request"
+   - Fill out the PR template with details about your changes
+
+## Code Style Guidelines
+
+- Use TypeScript for all new code
+- Follow the existing code style
+- Use meaningful variable and function names
+- Add comments for complex logic
+- Keep functions small and focused
+
+## Reporting Issues
+
+If you find a bug or have a feature request, please open an issue on the [issue tracker](https://github.com/renkouzuki/data-senpai/issues).
+
+When reporting a bug, please include:
+- A clear and descriptive title
+- Steps to reproduce the issue
+- Expected behavior
+- Actual behavior
+- Any relevant code snippets or error messages
+- Your environment (Next.js version, browser, etc.)
 
 ## License
 
-[MIT](LICENSE)
+By contributing to data-senpai, you agree that your contributions will be licensed under the project's [MIT License](LICENSE).
 
 ---
 
-<p align="center">
-  Made with ❤️ for Next.js developers
-</p>
+Thank you for contributing to data-senpai! ❤️
