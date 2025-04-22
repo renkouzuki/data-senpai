@@ -1,6 +1,6 @@
 {
   "name": "fetch-me-senpai",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Simple SSR Data Fetching for Next.js",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -16,6 +16,10 @@
     "data-fetching",
     "cache"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/renkouzuki/fetch-me-senpai-"
+  },
   "author": "renko uzuki",
   "license": "MIT",
   "devDependencies": {
