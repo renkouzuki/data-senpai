@@ -44,13 +44,13 @@
 
 ```bash
 # npm
-npm install next-fetch
+npm install fetch-me-senpai
 
 # yarn
-yarn add next-fetch
+yarn add fetch-me-senpai
 
 # pnpm
-pnpm add next-fetch
+pnpm add fetch-me-senpai
 ```
 
 ## Quick Start
@@ -59,7 +59,7 @@ pnpm add next-fetch
 
 ```tsx
 // app/products/page.tsx
-import { fetchData } from 'next-fetch';
+import { fetchData } from 'fetch-me-senpai';
 import ProductList from '@/components/ProductList';
 
 export default async function ProductsPage() {
@@ -81,7 +81,7 @@ export default async function ProductsPage() {
 
 ```tsx
 // components/CartWidget.tsx
-import { useServerData } from 'next-fetch';
+import { useServerData } from 'fetch-me-senpai';
 
 export default function CartWidget() {
   // Data initially from server, refreshable on client
@@ -106,7 +106,7 @@ export default function CartWidget() {
 
 ```tsx
 // components/AddToCartForm.tsx
-import { useSubmit } from 'next-fetch';
+import { useSubmit } from 'fetch-me-senpai';
 
 export default function AddToCartForm({ productId }) {
   // Form submission with auto-refresh
@@ -169,7 +169,7 @@ function ClientComponent({ initialData }) {
 Preload data to make navigation feel instant:
 
 ```tsx
-import { Link } from 'next-fetch';
+import { Link } from 'fetch-me-senpai';
 
 function ProductCard({ product }) {
   return (
@@ -326,7 +326,7 @@ Enhanced link component with data preloading.
 ### Data-Dependent Components
 
 ```tsx
-import { LoadingFallback } from 'next-fetch';
+import { LoadingFallback } from 'fetch-me-senpai';
 
 function UserOrders() {
   return (
@@ -353,7 +353,7 @@ function UserOrders() {
 ### Multi-Step Form Submission
 
 ```tsx
-import { useSubmit } from 'next-fetch';
+import { useSubmit } from 'fetch-me-senpai';
 
 function CheckoutForm() {
   const [step, setStep] = useState(1);
@@ -494,23 +494,6 @@ function NavigationMenu() {
 ## Contributing
 
 We welcome contributions! Please see our [contributing guide](CONTRIBUTING.md) for details.
-
-### Development
-
-```bash
-# Clone the repository
-git clone https://github.com/yourusername/next-fetch.git
-cd next-fetch
-
-# Install dependencies
-npm install
-
-# Start development mode
-npm run dev
-
-# Run tests
-npm test
-```
 
 ## License
 
