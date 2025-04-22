@@ -9,12 +9,14 @@ export function Link({
   onMouseEnter,
   ...props
 }: LinkProps): React.ReactElement {
+  const isClient = typeof window !== "undefined";
+
   const handleMouseEnter = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (onMouseEnter) {
       onMouseEnter(e);
     }
 
-    if (prefetch) {
+    if (isClient && prefetch) {
       preloadData(prefetch);
     }
   };

@@ -1,4 +1,3 @@
-import { FetchOptions } from "./types";
 import {
   parseTime,
   getFromCache,
@@ -8,21 +7,26 @@ import {
   addToPreloadSet,
   removeFromPreloadSet,
 } from "./cache";
+import { FetchOptions } from "./types";
 
 export async function fetchData<T>(
   url: string,
   options: FetchOptions = {}
 ): Promise<T> {
+  const isServer = typeof window === "undefined";
+
   try {
     const cacheKey = url;
 
     const cacheTime = options.cache
       ? typeof options.cache === "string"
         ? parseTime(options.cache)
-        : 60 * 60 * 1000 
+        : 60 * 60 * 1000
       : 0;
 
-    const cachedData = getFromCache(cacheKey);
+    const skipCache = isServer && options.ssr !== true;
+    const cachedData = skipCache ? null : getFromCache(cacheKey);
+
     if (cachedData !== null) {
       return cachedData as T;
     }
@@ -33,6 +37,7 @@ export async function fetchData<T>(
         "Content-Type": "application/json",
       },
       body: options.body ? JSON.stringify(options.body) : undefined,
+      ...(options.nextConfig || {}),
     });
 
     if (!response.ok) {
@@ -41,7 +46,7 @@ export async function fetchData<T>(
 
     const data = await response.json();
 
-    if (cacheTime > 0) {
+    if (!skipCache && cacheTime > 0) {
       addToCache(cacheKey, data, cacheTime);
     }
 
@@ -53,6 +58,8 @@ export async function fetchData<T>(
 }
 
 export function preloadData(url: string, options: FetchOptions = {}): void {
+  if (typeof window === "undefined") return;
+
   if (isPreloading(url)) return;
 
   addToPreloadSet(url);
@@ -60,7 +67,7 @@ export function preloadData(url: string, options: FetchOptions = {}): void {
   fetchData(url, options).finally(() => {
     setTimeout(() => {
       removeFromPreloadSet(url);
-    }, 10000); 
+    }, 10000);
   });
 }
 

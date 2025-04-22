@@ -1,8 +1,32 @@
 import { CacheEntry } from "./types";
 
-export const CACHE_STORE = new Map<string, CacheEntry>();
+const isServer = typeof window === "undefined";
+let SERVER_CACHE_STORE: Map<string, CacheEntry> = new Map();
+let SERVER_PRELOAD_REQUESTS: Set<string> = new Set();
 
-export const PRELOAD_REQUESTS = new Set<string>();
+export const getCacheStore = () => {
+  if (isServer) {
+    return SERVER_CACHE_STORE;
+  }
+  if (typeof window !== "undefined") {
+    window.__NEXT_FETCH_CACHE =
+      window.__NEXT_FETCH_CACHE || new Map<string, CacheEntry>();
+    return window.__NEXT_FETCH_CACHE;
+  }
+  return new Map<string, CacheEntry>(); 
+};
+
+export const getPreloadRequests = () => {
+  if (isServer) {
+    return SERVER_PRELOAD_REQUESTS;
+  }
+  if (typeof window !== "undefined") {
+    window.__NEXT_FETCH_PRELOADS =
+      window.__NEXT_FETCH_PRELOADS || new Set<string>();
+    return window.__NEXT_FETCH_PRELOADS;
+  }
+  return new Set<string>(); 
+};
 
 export function parseTime(time: string): number {
   const num = parseInt(time.split(" ")[0]);
@@ -16,7 +40,8 @@ export function parseTime(time: string): number {
 }
 
 export function getFromCache(url: string): any | null {
-  const cacheEntry = CACHE_STORE.get(url);
+  const cacheStore = getCacheStore();
+  const cacheEntry = cacheStore.get(url);
 
   if (cacheEntry && cacheEntry.expires > Date.now()) {
     return cacheEntry.data;
@@ -28,28 +53,34 @@ export function getFromCache(url: string): any | null {
 export function addToCache(url: string, data: any, cacheTime: number): void {
   if (cacheTime <= 0) return;
 
-  CACHE_STORE.set(url, {
+  const cacheStore = getCacheStore();
+  cacheStore.set(url, {
     data,
     expires: Date.now() + cacheTime,
   });
 }
 
 export function invalidateCache(url: string): void {
-  CACHE_STORE.delete(url);
+  const cacheStore = getCacheStore();
+  cacheStore.delete(url);
 }
 
 export function clearCache(): void {
-  CACHE_STORE.clear();
+  const cacheStore = getCacheStore();
+  cacheStore.clear();
 }
 
 export function addToPreloadSet(url: string): void {
-  PRELOAD_REQUESTS.add(url);
+  const preloadRequests = getPreloadRequests();
+  preloadRequests.add(url);
 }
 
 export function removeFromPreloadSet(url: string): void {
-  PRELOAD_REQUESTS.delete(url);
+  const preloadRequests = getPreloadRequests();
+  preloadRequests.delete(url);
 }
 
 export function isPreloading(url: string): boolean {
-  return PRELOAD_REQUESTS.has(url);
+  const preloadRequests = getPreloadRequests();
+  return preloadRequests.has(url);
 }

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { FetchOptions, FetchResponse } from "../core/types";
 import { fetchData } from "../core/fetch";
 
@@ -9,30 +9,52 @@ export function useServerData<T>(
   const [data, setData] = useState<T | null>(null);
   const [error, setError] = useState<Error | null>(null);
   const [isLoading, setLoading] = useState<boolean>(true);
+  const isMounted = useRef(true);
+  const shouldFetch = typeof url === "string" && url.length > 0;
 
   const refresh = useCallback(async () => {
+    if (!shouldFetch) {
+      setLoading(false);
+      return;
+    }
+
     setLoading(true);
     try {
       const freshData = await fetchData<T>(url, options);
-      setData(freshData);
-      setError(null);
+      if (isMounted.current) {
+        setData(freshData);
+        setError(null);
+      }
     } catch (err) {
-      setError(err instanceof Error ? err : new Error("Unknown error"));
+      if (isMounted.current) {
+        setError(err instanceof Error ? err : new Error("Unknown error"));
+      }
     } finally {
-      setLoading(false);
+      if (isMounted.current) {
+        setLoading(false);
+      }
     }
-  }, [url, options]);
+  }, [url, options, shouldFetch]);
 
   useEffect(() => {
-    setData(null);
-    setError(null);
-    setLoading(true);
+    isMounted.current = true;
 
-    refresh();
-  }, [url, refresh]);
+    if (shouldFetch) {
+      setData(null);
+      setError(null);
+      setLoading(true);
+      refresh();
+    } else {
+      setLoading(false);
+    }
+
+    return () => {
+      isMounted.current = false;
+    };
+  }, [url, refresh, shouldFetch]);
 
   return {
-    data: data as T,
+    data,
     error,
     isLoading,
     refresh,

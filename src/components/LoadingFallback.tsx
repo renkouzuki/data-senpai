@@ -18,6 +18,10 @@ export function LoadingFallback<T>({
     return <div className="next-fetch-error">Error: {error.message}</div>;
   }
 
+  if (!data) {
+    return <div className="next-fetch-error">Error: No data available</div>;
+  }
+
   return <>{children(data)}</>;
 }
 

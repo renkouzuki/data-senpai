@@ -5,10 +5,12 @@ export type FetchOptions = {
   method?: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
   headers?: Record<string, string>;
   body?: any;
+  ssr?: boolean; 
+  nextConfig?: Record<string, any>; 
 };
 
 export type FetchResponse<T> = {
-  data: T;
+  data: T | null;
   error: Error | null;
   isLoading: boolean;
   refresh: () => Promise<void>;
