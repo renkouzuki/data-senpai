@@ -53,3 +53,30 @@ export type CacheEntry = {
   data: any;
   expires: number;
 };
+
+export interface ApiEndpoint {
+  url: string;
+  method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
+  auth?: boolean;
+  cache?: string | boolean;
+  ssr?: boolean;
+  headers?: Record<string, string>;
+  params?: string[];
+}
+
+export interface ApiResponse<T = any> {
+  data?: T;
+  error?: string;
+  success: boolean;
+  status: number;
+}
+
+export interface ApiClientOptions {
+  baseUrl?: string;
+  defaultHeaders?: Record<string, string>;
+  getToken?: () => string | null;
+  onError?: (error: Error, endpoint: string) => void;
+  onSuccess?: (data: any, endpoint: string) => void;
+}
+
+export type ApiConfig = Record<string, ApiEndpoint>;

@@ -1,6 +1,6 @@
 {
   "name": "data-senpai",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Simple SSR Data Fetching for Next.js",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
